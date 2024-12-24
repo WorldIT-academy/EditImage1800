@@ -17,4 +17,8 @@ class App(ctk.CTk):
         # Задаємо назву нашого застосунку
         self.title(self.CONFIG['app_title'])
 
+        self.iconbitmap("static/icon/window.ico")
+        
+        # # self.ICON = 
+
 app = App()
