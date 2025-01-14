@@ -49,4 +49,3 @@ class App(ctk.CTk):
         
 
 app = App()
-d
