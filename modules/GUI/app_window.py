@@ -4,9 +4,7 @@ from ..tools import read_json
 from ..tools import create_folder_media
 import os
 from ..tools import rewrite_json
-from .header import Header
-from .content import Content
-
+from .app_frames import AppFrame
 
 class App(ctk.CTk):
     def __init__(self):
@@ -33,11 +31,22 @@ class App(ctk.CTk):
         self.ICON = ctk.CTkImage(image)
         self.iconbitmap(self.ICON)
         
-        self.HEADER = Header(ch_master=self) 
+        self.HEADER = AppFrame(
+            ch_master= self, 
+            ch_width= self.CONFIG["app_size"]["width"],
+            ch_height= self.CONFIG["app_size"]["height"] * 0.05,
+            ch_fg_color= '#181818'
+        ) 
         self.HEADER.grid(row= 0, column= 0)
         
-        self.CONTENT = Content(ch_master=self) 
+        self.CONTENT = AppFrame(
+            ch_master= self,
+            ch_width = self.CONFIG["app_size"]["width"],
+            ch_height = self.CONFIG["app_size"]["height"] * 0.95,
+            ch_fg_color = '#1f1f1f'
+        ) 
         self.CONTENT.grid(row= 1, column= 0, pady = 1)
         
 
 app = App()
+d
