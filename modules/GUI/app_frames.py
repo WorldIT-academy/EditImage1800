@@ -21,3 +21,4 @@ class AppFrame(ctk.CTkFrame):
             fg_color= ch_fg_color,
             corner_radius= 0
         )
+        
