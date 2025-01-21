@@ -5,10 +5,12 @@ from ..tools import create_folder_media
 import os
 from ..tools import rewrite_json
 from .app_frames import AppFrame
+from .app_button import AppButton
 
 class App(ctk.CTk):
     def __init__(self):
         ctk.CTk.__init__(self, fg_color= '#ffffff')
+        
         create_folder_media()
         # у змінну CONFIG записуємо дані прочитаного файлу json, у вигляді словника
         self.CONFIG = read_json(name_json= "config.json")
@@ -21,12 +23,13 @@ class App(ctk.CTk):
         self.CONFIG["app_size"]["height"] = self.HEIGHT
         # Записуємо зміни в конфігураційний файл json
         rewrite_json(dict= self.CONFIG, name_json= "config.json")
-        
         # Задаємо розміри нашому застосунку
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}")
-
-        self.maxsize(width= self.WIDTH, height= self.HEIGHT)
-        
+        # Перерисовуємо застосунок
+        self.update()
+        # Забороняємо розширення застосунку
+        self.resizable(False, False)
+        # self.maxsize(width= self.WIDTH, height= self.HEIGHT),
         # Задаємо назву нашого застосунку
         self.title(self.CONFIG['app_title'])
         #
@@ -89,6 +92,13 @@ class App(ctk.CTk):
             ch_fg_color= "#1f1f1f"
         )
         self.CONTENT_DASHBOARD.place(x = 0, y = self.DASHBOARD._current_height * 0.03) 
+        
+        self.BUTTON_VERTICAL = AppButton(
+            ch_master= self.VERTICAL_MENU,
+            name_image= "explorer.png",
+            scale_icon= self.VERTICAL_MENU._current_width * 0.5
+        )
+        self.BUTTON_VERTICAL.place(x = 20, y = 20)
 
 
 app = App()
