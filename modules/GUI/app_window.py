@@ -1,9 +1,7 @@
 import PIL.Image
 import customtkinter as ctk
-from ..tools import read_json
-from ..tools import create_folder_media
+from ..tools import create_folder_media, get_file_path, rewrite_json, read_json
 import os
-from ..tools import rewrite_json
 from .app_frames import AppFrame
 from .app_button import AppButton
 
@@ -96,7 +94,8 @@ class App(ctk.CTk):
         self.BUTTON_VERTICAL = AppButton(
             ch_master= self.VERTICAL_MENU,
             name_image= "explorer.png",
-            scale_icon= self.VERTICAL_MENU._current_width * 0.5
+            scale_icon= self.VERTICAL_MENU._current_width * 0.5,
+            function= lambda: get_file_path(parent = self)
         )
         self.BUTTON_VERTICAL.place(x = 20, y = 20)
 

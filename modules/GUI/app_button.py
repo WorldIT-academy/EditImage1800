@@ -22,7 +22,7 @@ import os
 
 class AppButton(ctk.CTkButton):
     
-    def __init__(self, ch_master: object, name_image: str, scale_icon: float, **kwargs):
+    def __init__(self, ch_master: object, name_image: str, scale_icon: float, function: object, **kwargs):
         '''
             #### Клас для створення кнопки застосунку.
             
@@ -46,6 +46,7 @@ class AppButton(ctk.CTkButton):
             hover_color= '#373535',
             corner_radius= 10,
             image= self.load_image(),
+            command= function,
             **kwargs
         )
     def load_image(self) -> ctk.CTkImage:
