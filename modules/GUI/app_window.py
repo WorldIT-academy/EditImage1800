@@ -95,9 +95,10 @@ class App(ctk.CTk):
             ch_master= self.VERTICAL_MENU,
             name_image= "explorer.png",
             scale_icon= self.VERTICAL_MENU._current_width * 0.5,
-            function= lambda: get_file_path(parent = self)
+            function= lambda: get_file_path(parent = self, button_parent= self.EXPLORER)
         )
         self.BUTTON_VERTICAL.place(x = 20, y = 20)
+  
 
 
 app = App()
