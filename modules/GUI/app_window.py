@@ -1,11 +1,10 @@
 import PIL.Image
 import customtkinter as ctk
-from ..tools import read_json
-from ..tools import create_folder_media
+from ..tools import create_folder_media, get_file_path, rewrite_json, read_json
 import os
-from ..tools import rewrite_json
 from .app_frames import AppFrame
 from .app_button import AppButton
+from .widgets import *
 
 class App(ctk.CTk):
     def __init__(self):
@@ -31,19 +30,37 @@ class App(ctk.CTk):
         self.resizable(False, False)
         # self.maxsize(width= self.WIDTH, height= self.HEIGHT),
         # Задаємо назву нашого застосунку
-        self.title(self.CONFIG['app_title'])
+        # self.title(self.CONFIG['app_title'])
+
+        self.overrideredirect(True)
         #
         image = PIL.Image.open(os.path.abspath(os.path.join(__file__, '..', '..', '..', 'static', 'icon', 'window.ico')))
         self.ICON = ctk.CTkImage(image)
-        self.iconbitmap(self.ICON)
         #
-        self.HEADER = AppFrame(
-            ch_master= self, 
-            ch_width= self.CONFIG["app_size"]["width"],
-            ch_height= self.CONFIG["app_size"]["height"] * 0.05,
-            ch_fg_color= '#181818'
-        ) 
+        self.HEADER = CustomTitleBar(
+            root= self, 
+            width= self.CONFIG["app_size"]["width"],
+            height= self.CONFIG["app_size"]["height"] * 0.05,
+            fg_color= '#181818',
+            corner_radius= 0
+        )
+
         self.HEADER.grid(row= 0, column= 0)
+
+        self.close_button = CloseButton(
+            root = self,
+            master = self.HEADER
+        )
+
+        self.close_button.place(x = self.CONFIG["app_size"]["width"] - 30, y = 0)
+
+        self.ICON_LABEL = self.icon_image = ctk.CTkLabel(
+            master = self.HEADER,
+            image = self.ICON,
+            text = "",
+        )
+
+        self.ICON_LABEL.place(x = 10, y = 5)
         #
         self.CONTENT = AppFrame(
             ch_master= self,
@@ -96,7 +113,8 @@ class App(ctk.CTk):
         self.BUTTON_VERTICAL = AppButton(
             ch_master= self.VERTICAL_MENU,
             name_image= "explorer.png",
-            scale_icon= self.VERTICAL_MENU._current_width * 0.5
+            scale_icon= self.VERTICAL_MENU._current_width * 0.5,
+            function= lambda: get_file_path(parent = self)
         )
         self.BUTTON_VERTICAL.place(x = 20, y = 20)
 
