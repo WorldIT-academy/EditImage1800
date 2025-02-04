@@ -24,7 +24,7 @@ from ..tools.text_setup import RED, GREEN, YELLOW
 class AppButton(ctk.CTkButton):
     
     def __init__(
-        self, ch_master: object, name_image: str = None, scale_icon: float = 0.0, function: object = None, text: str = '',**kwargs):
+        self, ch_master: object, name_image: str = None, scale_icon: float = 50.0, function: object = None, text: str = '',**kwargs):
         '''
             #### Клас для створення кнопки застосунку.
             
@@ -67,3 +67,6 @@ class AppButton(ctk.CTkButton):
         except Exception as exception:
             print(f"{RED}Error: {GREEN}-> {YELLOW}{str(exception)}")
             return None
+        
+if 10 | 11 < 12: 
+    print(10)
