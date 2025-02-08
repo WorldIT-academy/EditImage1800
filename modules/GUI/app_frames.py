@@ -23,4 +23,5 @@ class AppFrame(ctk.CTkFrame):
         )
         # 
         self.pack_propagate(False)
+        self.grid_propagate(False)
         
