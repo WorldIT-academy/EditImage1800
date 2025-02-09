@@ -19,10 +19,12 @@ r"""
 import PIL.Image
 import customtkinter as ctk
 import os
+from ..tools.text_setup import RED, GREEN, YELLOW
 
 class AppButton(ctk.CTkButton):
     
-    def __init__(self, ch_master: object, name_image: str, scale_icon: float, function: object, **kwargs):
+    def __init__(
+        self, ch_master: object, name_image: str = None, scale_icon: float = 50.0, function: object = None, text: str = '',**kwargs):
         '''
             #### Клас для створення кнопки застосунку.
             
@@ -41,7 +43,7 @@ class AppButton(ctk.CTkButton):
             master = ch_master, 
             width= int(scale_icon), 
             height= int(scale_icon), 
-            text= '',
+            text= text,
             fg_color= ch_master._fg_color,
             hover_color= '#373535',
             corner_radius= 10,
@@ -56,8 +58,15 @@ class AppButton(ctk.CTkButton):
             ### Повертає:
             - :mod:`ctk.CTkImage`: зображення кнопки.
         '''
-        PATH = os.path.abspath(os.path.join(__file__, "..", "..", "..", "static", "icon", self.NAME_IMAGE))
-        return ctk.CTkImage(
-            light_image = PIL.Image.open(PATH), 
-            size = self.SIZE
-        )
+        try:
+            PATH = os.path.abspath(os.path.join(__file__, "..", "..", "..", "static", "icon", self.NAME_IMAGE))
+            return ctk.CTkImage(
+                light_image = PIL.Image.open(PATH), 
+                size = self.SIZE
+            )
+        except Exception as exception:
+            print(f"{RED}Error: {GREEN}-> {YELLOW}{str(exception)}")
+            return None
+        
+if 10 | 11 < 12: 
+    print(10)
