@@ -7,7 +7,20 @@ from ..gui.app_images import ImageLabel
 from tkinter import BOTH, TOP, Y
 
 list_images = []
-list_buttons = []
+
+def show_images(button_name: str, frame: ctk.CTkFrame):
+    #
+    list_objects_frame = frame.winfo_children()
+    for object in list_objects_frame:
+        if isinstance(object, ImageLabel):
+            object.pack_forget()
+            # object.place_forget()
+            # object.grid_forget()
+    #
+    for image in list_images:
+        if image.FILE_PATH.split('/')[-1] == button_name:
+            image.pack()
+
 def get_file_path(parent: ctk.CTk, button_parent: ctk.CTkScrollableFrame | ctk.CTkFrame, dashboard: ctk.CTkFrame):
     r"""
         Запитує користувача на вибір файла з можливістю вибору декількох файлів
@@ -40,9 +53,10 @@ def get_file_path(parent: ctk.CTk, button_parent: ctk.CTkScrollableFrame | ctk.C
             # ДЗ: написати функцію show_images() котра відображає зображення відносно натиснутої кнопки,
             # виключно по центру фрейму в якому розміщено зображення
             # Додати до параметру function функцію show_images()
-            function= lambda: list_images[-1].pack()
+            function= lambda name_button = name_file.split('/')[-1]: show_images(button_name= name_button, frame= dashboard) 
         )
-        list_buttons.append(button)
+        
+        # list_buttons.append(button)
         button.pack(anchor= "w", padx= 20, pady= 20)  # Встановлення кнопки на вікно
 
         
