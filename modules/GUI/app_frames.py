@@ -19,9 +19,8 @@ class AppFrame(ctk.CTkFrame):
             width= ch_width,
             height= ch_height,
             fg_color= ch_fg_color,
-            corner_radius= 0
+            corner_radius= 0,
+            **kwargs
         )
         # 
         self.pack_propagate(False)
-        self.grid_propagate(False)
-        

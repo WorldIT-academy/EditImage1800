@@ -1,10 +1,8 @@
-import PIL.Image
 import customtkinter as ctk
-from ..tools import create_folder_media, get_file_path, rewrite_json, read_json
-import os
+from ..tools import create_folder_media, get_file_path, read_json
+from ..tools.search_path import search_path
 from .app_frames import AppFrame
 from .app_button import AppButton
-
 
 class App(ctk.CTk):
     def __init__(self):
@@ -12,49 +10,45 @@ class App(ctk.CTk):
         
         create_folder_media()
         # у змінну CONFIG записуємо дані прочитаного файлу json, у вигляді словника
-        self.CONFIG = read_json(name_json= "config.json")
+        self.CONFIG = read_json(path = "static/json/config.json")
         # Задаємо ширину нашого застосунку 
         self.WIDTH = int(self.winfo_screenwidth() * self.CONFIG["app_width"])
         # Задаємо висоту нашого застосунку
-        self.HEIGHT = int(self.winfo_screenheight() * self.CONFIG["app_height"])
-        #
-        self.CONFIG["app_size"]["width"] = self.WIDTH
-        self.CONFIG["app_size"]["height"] = self.HEIGHT
-        # Записуємо зміни в конфігураційний файл json
-        rewrite_json(dict= self.CONFIG, name_json= "config.json")
+        self.HEIGHT = int(self.winfo_screenheight() * self.CONFIG["app_height"] - 50)
         # Задаємо розміри нашому застосунку
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}")
         # Перерисовуємо застосунок
         self.update()
         # Забороняємо розширення застосунку
         self.resizable(False, False)
-        # self.maxsize(width= self.WIDTH, height= self.HEIGHT),
-        # Задаємо назву нашого застосунку
-        # self.title(self.CONFIG['app_title'])
-        #
-        image = PIL.Image.open(os.path.abspath(os.path.join(__file__, '..', '..', '..', 'static', 'icon', 'window.ico')))
-        self.ICON = ctk.CTkImage(image)
+        # змінюємо назву вікна
+        self.title(self.CONFIG['app_title'])
+        # змінюємо значок вікна
+        self.iconbitmap(search_path("static/icon/window.ico"))
+        # змінюємо тему вікна та темну
+        ctk.set_appearance_mode("Dark")
+        
         #
         self.HEADER = AppFrame(
             ch_master= self, 
-            ch_width= self.CONFIG["app_size"]["width"],
-            ch_height= self.CONFIG["app_size"]["height"] * 0.05,
+            ch_width= self.WIDTH + 1,
+            ch_height= self.HEIGHT * 0.05,
             ch_fg_color= '#181818',
         )
 
-        self.HEADER.grid(row= 0, column= 0)
-
+        self.HEADER.place(x = 0, y = 0)
         #
         self.CONTENT = AppFrame(
             ch_master= self,
-            ch_width = self.CONFIG["app_size"]["width"],
-            ch_height = self.CONFIG["app_size"]["height"] * 0.95,
+            ch_width = self.WIDTH,
+            ch_height = self.HEIGHT * 0.95,
             ch_fg_color = '#ffffff'
         ) 
-        self.CONTENT.grid(row= 1, column= 0, pady = 1)
+        
+        self.CONTENT.place(x = 0, y = self.HEADER._current_height + 1)
         #
         self.VERTICAL_MENU = AppFrame(
-            ch_master = self.CONTENT ,
+            ch_master = self.CONTENT,
             ch_width= self.CONTENT._current_width * 0.05,  
             ch_height= self.CONTENT._current_height,
             ch_fg_color= '#181818'
@@ -99,8 +93,6 @@ class App(ctk.CTk):
             scale_icon= self.VERTICAL_MENU._current_width * 0.5,
             function= lambda: get_file_path(parent = self, button_parent= self.EXPLORER, dashboard= self.CONTENT_DASHBOARD)
         )
-        self.BUTTON_VERTICAL.place(x = 20, y = 20)
-  
-
+        self.BUTTON_VERTICAL.pack()
 
 app = App()

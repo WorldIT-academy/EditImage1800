@@ -1,3 +1,6 @@
+"""
+    # EDITIMAGE project (Mykytenko Petro redaction)
+"""
 import modules
 
 if __name__ == "__main__":

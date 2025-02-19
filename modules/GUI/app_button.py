@@ -18,8 +18,8 @@ r"""
 
 import PIL.Image
 import customtkinter as ctk
-import os
 from ..tools.text_setup import RED, GREEN, YELLOW
+from ..tools.search_path import search_path
 
 class AppButton(ctk.CTkButton):
     
@@ -59,14 +59,10 @@ class AppButton(ctk.CTkButton):
             - :mod:`ctk.CTkImage`: зображення кнопки.
         '''
         try:
-            PATH = os.path.abspath(os.path.join(__file__, "..", "..", "..", "static", "icon", self.NAME_IMAGE))
             return ctk.CTkImage(
-                light_image = PIL.Image.open(PATH), 
+                light_image = PIL.Image.open(search_path(path= f"static/icon/{self.NAME_IMAGE}")), 
                 size = self.SIZE
             )
         except Exception as exception:
             print(f"{RED}Error: {GREEN}-> {YELLOW}{str(exception)}")
             return None
-        
-if 10 | 11 < 12: 
-    print(10)
